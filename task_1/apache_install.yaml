@@ -1,0 +1,42 @@
+---
+- name: Install Apache and Configure Firewall
+  hosts: nodes
+  become: yes
+
+  tasks:
+  - name: Install httpd
+    yum:
+      name: httpd
+      state: latest
+
+  - name: Ensure httpd is running
+    service:
+      name: httpd
+      enabled: yes
+      state: started
+
+  - name: Add html file
+    copy:
+      dest: "/var/www/html/index.html"
+      content: |
+        Welcome to my web server
+    notify: Restart Apache
+
+  - name: Configure firewalld
+    firewalld:
+      zone: public
+      port: 80/tcp
+      state: enabled
+      permanent: yes
+    notify: Restart Firewalld
+
+  handlers:
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
+
+    - name: Restart Firewalld
+      service:
+        name: firewalld
+        state: restarted
