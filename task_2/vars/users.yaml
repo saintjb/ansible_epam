@@ -1,0 +1,19 @@
+---
+users:
+  - username: alice
+    homedir: /home/alice
+    email: alice@example.com
+    password: pass13
+    shell: /bin/bash
+
+  - username: bob
+    homedir: /home/bob
+    email: bob@example.com
+    password: pass14
+    shell: /bin/bash
+ 
+  - username: carol
+    homedir: /home/carol
+    email: carol@example.com
+    password: pass15
+    shell: /bin/bash

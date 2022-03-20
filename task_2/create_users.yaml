@@ -1,0 +1,16 @@
+---
+- name: Create users with folders, emails, passwords
+  hosts: all
+  become: yes
+  vars_files:
+    - vars/users.yaml  
+  tasks:
+  - name: Create users from list using loop
+    user:
+      name: "{{ item.username }}"
+      state: present
+      password: "{{ item.password | password_hash('sha512') }}"
+      comment: "{{ item.email }}"
+      home: "{{ item.homedir }}"
+      shell: "{{ item.shell }}"
+    with_items: "{{ users }}"        
