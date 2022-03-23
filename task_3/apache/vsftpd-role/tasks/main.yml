@@ -1,0 +1,43 @@
+---
+
+- name: Install required packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - "{{ package_1 }}"
+    - "{{ package_2}}"
+- name: Start and enable vsftpd
+  service: 
+    name: vsftpd
+    state: started
+    enabled: yes
+- name: Open ports in Firewalld
+  firewalld:
+    service: ftp
+    permanent: yes
+    state: enabled
+
+- name: Copy ftp config
+  template:
+    src: templates/vsftpd.j2
+    dest: "{{ vsftpd_config_file }}"
+
+- name: Set permissions
+  file:
+    path: /var/ftp/pub
+    mode: '0777'
+
+- name: set ftpd_anon_write boolean
+  seboolean:
+    name: ftpd_anon_write
+    state: yes
+    persistent: yes
+
+- name: Manage selinux settings
+  sefcontext:
+    target: /var/ftp/pub
+    setype: public_content_rw_t
+    state: present
+  notify:
+    - restorecon

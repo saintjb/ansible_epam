@@ -1,0 +1,27 @@
+---
+- name: Install httpd
+  package:
+    name: "{{ apache_package }}"
+    state: present
+  when: ansible_distribution == 'CentOS'
+
+- name: Ensure httpd is running
+  service:
+    name: "{{ apache_package }}"
+    enabled: yes
+    state: started
+
+- name: Add html file
+  copy:
+    src: files/index.html
+    dest: "{{ apache_host_dir }}"
+  notify: Restart Apache
+
+- name: Configure firewalld
+  firewalld:
+    zone: public
+    port: "{{ apache_http_port }}"
+    state: enabled
+    permanent: yes
+  notify: Restart Firewalld
+

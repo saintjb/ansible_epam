@@ -1,0 +1,5 @@
+---
+# defaults file for apache
+apache_host_dir: /var/www/html
+apache_http_port: 80/tcp
+apache_package: httpd

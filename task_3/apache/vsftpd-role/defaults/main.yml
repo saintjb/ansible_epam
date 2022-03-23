@@ -1,0 +1,4 @@
+---
+# defaults file for vsftpd-role
+package_1: vsftpd
+package_2: policycoreutils-python-utils

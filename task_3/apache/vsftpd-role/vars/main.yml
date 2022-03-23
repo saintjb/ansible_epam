@@ -1,0 +1,7 @@
+---
+# vars file for vsftpd-role
+anonymous_enable: yes
+local_enable: yes
+write_enable: yes
+anon_upload_enable: yes
+vsftpd_config_file: /etc/vsftpd/vsftpd.conf
