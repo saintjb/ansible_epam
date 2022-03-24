@@ -1,6 +1,6 @@
 ---
 - name: Create users with folders, emails, passwords
-  hosts: all
+  hosts: node1.example.com
   become: yes
   vars_files:
     - vars/users.yaml  
